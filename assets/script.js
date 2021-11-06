@@ -9,11 +9,9 @@ function writePassword() {
   passwordText.value = password;
 }
 
-//User-generated values
-var pwLength;
-var pwChars;
+//**Homework coding begins below this line**
 
-//Established messages (string variables) for the program prompts/confirmations
+//Established messages (string variables) for the program prompts/confirmations to guide user to create password:
 var confirm1 =
   "Please include AT LEAST ONE of the following in your password: Lowercase letters, uppercase letters, numeric values, and/or special characters.";
 var selectChars = "These will be included in your password.";
@@ -23,14 +21,16 @@ var confirmNum = "Would you like to include numbers?";
 var confirmSpec =
   "Would you like to include special characters (such as !, #, %, &, etc.; does not include spaces)?";
 
-//Values confirming user selection for characters
+//Values confirming user selection for characters and password length
+var pwLength;
 var LC;
 var UC;
 var Num;
 var Spec;
+//This array will eventually combine the user character values to generate the password:
 var pwArray = [];
 
-//Possible character values to select (as an array)
+//Possible character values user can select (as arrays)
 var charLC = [
   "a",
   "b",
@@ -111,63 +111,81 @@ var charSpec = [
   "?",
   "@",
   "^",
+  "(",
+  ")",
+  "[",
+  "]",
   "|",
 ];
 
-//List of special characters: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+/*Logic, including function, for actually generating the password using the above variables and arrays, 
+AND resetting the password generator after a password has been produced:*/
 
-//Math.random = Completely random number generator
-//Math.floor = Establishes opportunity to set parameters for "random"
-//.length: Sets parameters based on length of variable given (here lowercase)
-
-while (true) {
-  pwLength = Number(
-    prompt("Please enter a password length from 8 to 128 characters:")
-  );
-  if (pwLength < 8 || pwLength > 128) {
-    alert("You must enter a valid number.");
-    continue;
-  } else {
-    alert("Your password will be " + pwLength + " characters long.");
-  }
+function generatePassword() {
+  //passwordArray defined locally to allow values to be re-established each time function is run
+  passwordArray = [];
   while (true) {
-    if (!confirm(confirm1)) {
-      continue;
-    }
-    LC = confirm(confirmLC);
-    if (LC) {
-      pwArray = pwArray.concat(charLC);
-      alert(selectChars);
-    }
-    UC = confirm(confirmUC);
-    if (UC) {
-      pwArray = pwArray.concat(charUC);
-      alert(selectChars);
-    }
-    Num = confirm(confirmNum);
-    if (Num) {
-      pwArray = pwArray.concat(charNum);
-      alert(selectChars);
-    }
-    Spec = confirm(confirmSpec);
-    if (Spec) {
-      pwArray = pwArray.concat(charSpec);
-      alert(selectChars);
-    }
-    if (!LC && !UC && !Num && !Spec) {
+    //Prompts for correct password length and accompanying error message if outside parameters
+    pwLength = Number(
+      prompt("Please enter a password length from 8 to 128 characters:")
+    );
+    if (pwLength < 8 || pwLength > 128) {
+      alert("You must enter a valid number.");
       continue;
     } else {
-      break;
+      alert("Your password will be " + pwLength + " characters long.");
     }
+    //Asks user to confirm that at least one character group must be included in password
+    while (true) {
+      if (!confirm(confirm1)) {
+        continue;
+      }
+      //Offers option for password to include lowercase letters (with confirmation alert if selected)
+      LC = confirm(confirmLC);
+      if (LC) {
+        pwArray = pwArray.concat(charLC);
+        alert(selectChars);
+      }
+      //Offers option for password to include uppercase letters (with confirmation alert if selected)
+      UC = confirm(confirmUC);
+      if (UC) {
+        pwArray = pwArray.concat(charUC);
+        alert(selectChars);
+      }
+      //Offers option for password to include numeric values (with confirmation alert if selected)
+      Num = confirm(confirmNum);
+      if (Num) {
+        pwArray = pwArray.concat(charNum);
+        alert(selectChars);
+      }
+      //Offers option for password to include special characters (with confirmation alert if selected)
+      Spec = confirm(confirmSpec);
+      if (Spec) {
+        pwArray = pwArray.concat(charSpec);
+        alert(selectChars);
+      }
+      //Return to character selection if user selects none of the above four options
+      if (!LC && !UC && !Num && !Spec) {
+        continue;
+      } else {
+        break;
+      }
+    }
+    //If password length is valid and at least one character is selected, password is generated using the following:
+    /*Notes on the following methods: 
+    Math.random = Completely random number generator
+    Math.floor = Establishes opportunity to set parameters for "random"*/
+    var password = [];
+    for (var i = 0; i < pwLength; i++) {
+      randomIndex = Math.floor(Math.random() * pwArray.length);
+      password.push(pwArray[randomIndex]);
+    }
+    //Values are concatenated without spacing in between and loop ends:
+    return password.join("");
   }
-  var password = [];
-  for (var i = 0; i < pwLength; i++) {
-    randomIndex = Math.floor(Math.random() * pwArray.length);
-    password.push(pwArray[randomIndex]);
-  }
-  alert("Your new password is: \n\n" + password.join(""));
-  break;
 }
+
+//**Homework coding ends here**
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
