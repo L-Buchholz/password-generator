@@ -28,6 +28,7 @@ var LC;
 var UC;
 var Num;
 var Spec;
+var pwArray = [];
 
 //Possible character values to select (as an array)
 var charLC = [
@@ -119,35 +120,6 @@ var charSpec = [
 //Math.floor = Establishes opportunity to set parameters for "random"
 //.length: Sets parameters based on length of variable given (here lowercase)
 
-var randomLC = Math.floor(Math.random() * charLC.length);
-console.log(randomLC);
-
-//Sets the random number generator to one of the given character options
-
-var pwLC = charLC[randomLC];
-console.log(charLC);
-
-//Repeats the above for uppercase, numbers, and special characters (with console.log tests)
-
-var randomUC = Math.floor(Math.random() * charUC.length);
-console.log(randomUC);
-
-var pwUC = charUC[randomUC];
-console.log(charUC);
-
-var randomNum = Math.floor(Math.random() * charNum.length);
-console.log(randomNum);
-
-var pwNum = charNum[randomNum];
-console.log(charNum);
-
-var randomSpec = Math.floor(Math.random() * charSpec.length);
-console.log(randomSpec);
-
-var pwSpec = charSpec[randomSpec];
-console.log(charSpec);
-
-/*
 while (true) {
   pwLength = Number(
     prompt("Please enter a password length from 8 to 128 characters:")
@@ -164,18 +136,22 @@ while (true) {
     }
     LC = confirm(confirmLC);
     if (LC) {
+      pwArray = pwArray.concat(charLC);
       alert(selectChars);
     }
     UC = confirm(confirmUC);
     if (UC) {
+      pwArray = pwArray.concat(charUC);
       alert(selectChars);
     }
     Num = confirm(confirmNum);
     if (Num) {
+      pwArray = pwArray.concat(charNum);
       alert(selectChars);
     }
     Spec = confirm(confirmSpec);
     if (Spec) {
+      pwArray = pwArray.concat(charSpec);
       alert(selectChars);
     }
     if (!LC && !UC && !Num && !Spec) {
@@ -184,9 +160,14 @@ while (true) {
       break;
     }
   }
+  var password = [];
+  for (var i = 0; i < pwLength; i++) {
+    randomIndex = Math.floor(Math.random() * pwArray.length);
+    password.push(pwArray[randomIndex]);
+  }
+  alert("Your new password is: \n\n" + password.join(""));
+  break;
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
-*/
