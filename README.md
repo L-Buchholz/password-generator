@@ -1,7 +1,5 @@
 # Password-Generator
 
-## Bootcamp homework #3
-
 A user wants a webpage that offers the option of generating a strong random password to protect sensitive data. The following "Acceptance Criteria" for this feature were requested and have now been implemented:
 
 - Clicking the button on the webpage (to generate a new password) results in a series of window-based prompts indicating password criteria.
